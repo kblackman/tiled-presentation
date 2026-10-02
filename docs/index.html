@@ -20,6 +20,10 @@
   .progress { position: fixed; top: 0; left: 0; height: 1px; width: 100%; background: rgba(255,255,255,0.08); z-index: 60; }
   .progress > div { height: 100%; width: 0%; background: linear-gradient(90deg, rgba(255,199,0,0.3), #FFC700); transition: width 600ms cubic-bezier(.16,.84,.34,1); }
   header { position: fixed; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: 26px 40px; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); z-index: 55; pointer-events: none; }
+  .home { all: unset; box-sizing: content-box; display: block; padding: 8px; margin: -8px; cursor: pointer; pointer-events: auto; opacity: 0.85; transition: opacity 200ms ease; }
+  .home:hover { opacity: 1; }
+  .home:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+  .home[aria-disabled="true"] { cursor: default; opacity: 0.85; }
   .rail { position: fixed; left: clamp(16px, 2.4vw, 34px); top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 14px; z-index: 50; opacity: 0; transition: opacity 700ms ease; pointer-events: none; }
   .rail span { display: block; width: 14px; height: 1px; background: rgba(255,255,255,0.45); transition: width 520ms cubic-bezier(.16,.84,.34,1), background 520ms ease, opacity 520ms ease; }
 
@@ -134,7 +138,7 @@
   <div class="progress"><div id="progress"></div></div>
 
   <header>
-    <svg viewBox="0 0 105 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="bkmn" style="display:block; height:18px; width:auto"><path d="M92.9351 15.3565C89.8151 15.3565 88.411 17.8915 88.411 20.8555V29.8255H82.873V20.1925C82.873 14.5765 86.1881 9.9745 92.9351 9.9745C99.6821 9.9745 103.075 14.5375 103.075 20.1925V29.8255H97.537V20.8555C97.537 17.8915 96.0941 15.3565 92.9351 15.3565Z" fill="#ffffff"/><path d="M70.692 9.8185C76.971 9.8185 80.169 14.3425 80.169 19.7245V29.8255H74.631V20.6605C74.631 17.6965 73.344 15.2005 70.302 15.2005C67.299 15.2005 66.012 17.6575 66.012 20.5825V29.8255H60.474V20.6215C60.474 17.6575 59.187 15.2005 56.184 15.2005C53.103 15.2005 51.894 17.6965 51.894 20.6215V29.8255H46.356V19.7245C46.356 14.3425 49.515 9.8185 55.755 9.8185C59.46 9.8185 62.151 11.4565 63.282 14.1085C64.491 11.4565 67.221 9.8185 70.692 9.8185Z" fill="#ffffff"/><path d="M30.8964 29.8255H25.3584V1.6285H30.8964V18.0085H32.7294C32.9244 17.6575 33.1584 17.3065 33.4314 16.9555L38.7744 10.5205H45.3654L37.3314 20.1145L45.3264 29.8255H38.7354L33.3924 23.2735C33.1194 22.9225 32.8854 22.5325 32.6904 22.1425H30.8964V29.8255Z" fill="#FFC700"/><path d="M12.3768 30.3715C6.37081 30.3715 1.9248 26.0425 1.9248 20.1925V1.6285H7.4628V11.7685C8.9058 10.6765 10.7388 9.9745 12.6888 9.9745C18.6948 9.9745 22.8288 14.1865 22.8288 20.1925C22.8288 25.7695 18.3438 30.3715 12.3768 30.3715ZM12.3768 25.1455C15.2238 25.1455 17.2908 22.9225 17.2908 20.1925C17.2908 17.4625 15.2238 15.2005 12.3768 15.2005C9.52981 15.2005 7.4628 17.4625 7.4628 20.1925C7.4628 22.9225 9.52981 25.1455 12.3768 25.1455Z" fill="#ffffff"/></svg>
+    <button class="home" id="home" type="button" aria-label="Back to title slide"><svg viewBox="0 0 105 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="bkmn" style="display:block; height:18px; width:auto"><path d="M92.9351 15.3565C89.8151 15.3565 88.411 17.8915 88.411 20.8555V29.8255H82.873V20.1925C82.873 14.5765 86.1881 9.9745 92.9351 9.9745C99.6821 9.9745 103.075 14.5375 103.075 20.1925V29.8255H97.537V20.8555C97.537 17.8915 96.0941 15.3565 92.9351 15.3565Z" fill="#ffffff"/><path d="M70.692 9.8185C76.971 9.8185 80.169 14.3425 80.169 19.7245V29.8255H74.631V20.6605C74.631 17.6965 73.344 15.2005 70.302 15.2005C67.299 15.2005 66.012 17.6575 66.012 20.5825V29.8255H60.474V20.6215C60.474 17.6575 59.187 15.2005 56.184 15.2005C53.103 15.2005 51.894 17.6965 51.894 20.6215V29.8255H46.356V19.7245C46.356 14.3425 49.515 9.8185 55.755 9.8185C59.46 9.8185 62.151 11.4565 63.282 14.1085C64.491 11.4565 67.221 9.8185 70.692 9.8185Z" fill="#ffffff"/><path d="M30.8964 29.8255H25.3584V1.6285H30.8964V18.0085H32.7294C32.9244 17.6575 33.1584 17.3065 33.4314 16.9555L38.7744 10.5205H45.3654L37.3314 20.1145L45.3264 29.8255H38.7354L33.3924 23.2735C33.1194 22.9225 32.8854 22.5325 32.6904 22.1425H30.8964V29.8255Z" fill="#FFC700"/><path d="M12.3768 30.3715C6.37081 30.3715 1.9248 26.0425 1.9248 20.1925V1.6285H7.4628V11.7685C8.9058 10.6765 10.7388 9.9745 12.6888 9.9745C18.6948 9.9745 22.8288 14.1865 22.8288 20.1925C22.8288 25.7695 18.3438 30.3715 12.3768 30.3715ZM12.3768 25.1455C15.2238 25.1455 17.2908 22.9225 17.2908 20.1925C17.2908 17.4625 15.2238 15.2005 12.3768 15.2005C9.52981 15.2005 7.4628 17.4625 7.4628 20.1925C7.4628 22.9225 9.52981 25.1455 12.3768 25.1455Z" fill="#ffffff"/></svg></button>
     <span>Round two</span>
   </header>
 
@@ -284,6 +288,7 @@
     });
     progress.style.width = (idx / last * 100) + '%';
     count.textContent = idx === 0 ? 'Intro' : idx === last ? 'Close' : String(idx).padStart(2, '0') + ' / 05';
+    home.setAttribute('aria-disabled', idx === 0 ? 'true' : 'false');
     prev.setAttribute('aria-disabled', idx === 0 ? 'true' : 'false');
     next.setAttribute('aria-disabled', idx === last ? 'true' : 'false');
   }
@@ -298,6 +303,8 @@
   prev.addEventListener('click', function () { go(idx - 1); });
   next.addEventListener('click', function () { go(idx + 1); });
   document.getElementById('begin').addEventListener('click', function () { go(1); });
+  var home = document.getElementById('home');
+  home.addEventListener('click', function () { go(0); });
 
   document.addEventListener('keydown', function (e) {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
