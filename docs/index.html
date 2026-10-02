@@ -34,6 +34,11 @@
   .hero h1 { font-size: clamp(32px, calc(var(--u) * 5.4), 100px); font-weight: 800; line-height: 1.06; letter-spacing: -0.03em; margin: 0; max-width: 18ch; text-wrap: balance; }
   .hero .sub { margin: 34px 0 0; font-size: clamp(15px, calc(var(--u) * 1.35), 25px); line-height: 1.6; color: rgba(255,255,255,0.6); max-width: 52ch; text-wrap: pretty; }
 
+  .begin { all: unset; box-sizing: border-box; cursor: pointer; margin-top: clamp(30px, calc(var(--u) * 3.4), 56px); display: inline-flex; align-items: center; gap: 14px; padding: 17px 26px; border: 1px solid rgba(255,199,0,0.55); border-radius: 8px; color: var(--accent); font-size: clamp(14px, calc(var(--u) * 1.15), 21px); transition: background 260ms ease, border-color 260ms ease, transform 260ms cubic-bezier(.22,.61,.36,1); }
+  .begin svg { display: block; width: 22px; height: 12px; flex: none; }
+  .begin:hover { background: rgba(255,199,0,0.10); border-color: var(--accent); transform: translateX(4px); }
+  .begin:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
   /* ---------- slides ---------- */
   .stage { position: fixed; inset: 0; overflow: hidden; pointer-events: none; }
   .card { pointer-events: auto; position: absolute; top: 7vh; left: clamp(16px, 4vw, 56px); right: clamp(16px, 4vw, 56px); height: 86vh; height: 86dvh; transform: translate3d(0, 110vh, 0); transform-origin: 50% 0%; will-change: transform, filter; border: 1px solid rgba(255,255,255,0.10); border-radius: 16px; background: linear-gradient(168deg, #2E2F33 0%, #131521 100%); box-shadow: 0 -28px 70px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.05) inset; overflow: hidden; padding: clamp(32px, calc(var(--u) * 5), 118px); display: flex; flex-direction: column; justify-content: center; transition: transform 900ms cubic-bezier(.16,.84,.34,1), filter 900ms cubic-bezier(.16,.84,.34,1); }
@@ -68,8 +73,6 @@
   .nav.prev:hover { transform: translateX(-3px); }
   .nav:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .nav[aria-disabled="true"] { opacity: 0.25; pointer-events: none; }
-  .nav.pulse { animation: navPulse 2s ease-in-out infinite; }
-  @keyframes navPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(255,199,0,0); } 50% { box-shadow: 0 0 0 7px rgba(255,199,0,0.14); border-color: var(--accent); } }
 
   /* ---------- reveals ---------- */
   .reveal-on [data-reveal] { opacity: 0; transform: translateY(26px); transition: opacity 1150ms cubic-bezier(.16,.84,.34,1), transform 1300ms cubic-bezier(.16,.84,.34,1); }
@@ -125,7 +128,6 @@
     .nav { width: 44px; height: 44px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .nav.pulse { animation: none; }
     .hero, .card, .progress > div { transition: none; }
     .reveal-on [data-reveal] { opacity: 1; transform: none; transition: none; }
     .reveal-on [data-motif] path, .reveal-on [data-assembly] path { opacity: 1; transform: none; transition: none; }
@@ -153,6 +155,7 @@
         <div data-reveal data-delay="1" class="eyebrow"><i></i>Round two</div>
         <h1 data-reveal data-delay="2">What I'd bring back to Tiled, and what I'd do differently this time.</h1>
         <p data-reveal data-delay="3" class="sub">Five ideas, grounded in what I learned building The Builder and what I've added since.</p>
+        <div data-reveal data-delay="4"><button class="begin" id="begin" type="button">Begin<svg viewBox="0 0 22 12" fill="none" aria-hidden="true"><path d="M1 6H21M21 6L15.6 1M21 6L15.6 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
       </div>
     </section>
   </div>
@@ -241,7 +244,7 @@
     <span class="hint"><span class="kb">Use <kbd>&larr;</kbd><kbd>&rarr;</kbd> to navigate</span><span class="touch">Swipe or tap to navigate</span></span>
     <button class="nav prev" id="prev" aria-label="Previous slide"><svg viewBox="0 0 22 12" fill="none" aria-hidden="true"><path d="M21 6H1M1 6L6.4 1M1 6L6.4 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <span class="count" id="count" aria-live="polite">Intro</span>
-    <button class="nav next pulse" id="next" aria-label="Next slide"><svg viewBox="0 0 22 12" fill="none" aria-hidden="true"><path d="M1 6H21M21 6L15.6 1M21 6L15.6 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button class="nav next" id="next" aria-label="Next slide"><svg viewBox="0 0 22 12" fill="none" aria-hidden="true"><path d="M1 6H21M21 6L15.6 1M21 6L15.6 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </nav>
 </div>
 
@@ -298,12 +301,12 @@
     n = Math.max(0, Math.min(last, n));
     if (n === idx) return;
     idx = n;
-    next.classList.remove('pulse');
     render();
   }
 
   prev.addEventListener('click', function () { go(idx - 1); });
   next.addEventListener('click', function () { go(idx + 1); });
+  document.getElementById('begin').addEventListener('click', function () { go(1); });
 
   document.addEventListener('keydown', function (e) {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
