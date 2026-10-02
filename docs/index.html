@@ -12,33 +12,34 @@
   :root { --u: min(1vw, 1.78vh); --accent: #FFC700; }
   * { box-sizing: border-box; }
   html { background: #272727; }
+  html, body { height: 100%; overflow: hidden; }
   body { margin: 0; background: #272727; color: #fff; -webkit-font-smoothing: antialiased; font-family: Figtree, system-ui, sans-serif; }
   ::selection { background: rgba(255,199,0,0.25); }
 
   /* ---------- chrome ---------- */
   .progress { position: fixed; top: 0; left: 0; height: 1px; width: 100%; background: rgba(255,255,255,0.08); z-index: 60; }
-  .progress > div { height: 100%; width: 0%; background: linear-gradient(90deg, rgba(255,199,0,0.3), #FFC700); transition: width 120ms linear; }
+  .progress > div { height: 100%; width: 0%; background: linear-gradient(90deg, rgba(255,199,0,0.3), #FFC700); transition: width 600ms cubic-bezier(.16,.84,.34,1); }
   header { position: fixed; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: 26px 40px; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); z-index: 55; pointer-events: none; }
   .rail { position: fixed; left: clamp(16px, 2.4vw, 34px); top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 14px; z-index: 50; opacity: 0; transition: opacity 700ms ease; pointer-events: none; }
   .rail span { display: block; width: 14px; height: 1px; background: rgba(255,255,255,0.45); transition: width 520ms cubic-bezier(.16,.84,.34,1), background 520ms ease, opacity 520ms ease; }
 
   /* ---------- hero ---------- */
-  .hero-wrap { height: 100vh; perspective: 1400px; perspective-origin: 50% 40%; }
-  .hero { position: sticky; top: 0; height: 100vh; transform-style: preserve-3d; will-change: transform, filter, opacity; display: grid; align-content: center; padding: 0 40px 0 clamp(32px, calc(var(--u) * 9), 200px); }
+  .hero-wrap { position: fixed; inset: 0; perspective: 1400px; perspective-origin: 50% 40%; }
+  .hero { position: absolute; inset: 0; transform-style: preserve-3d; display: grid; align-content: center; padding: 0 40px 0 clamp(32px, calc(var(--u) * 9), 200px); transition: transform 900ms cubic-bezier(.16,.84,.34,1), filter 900ms cubic-bezier(.16,.84,.34,1), opacity 900ms cubic-bezier(.16,.84,.34,1); }
+  .hero.behind { transform: translate3d(0,0,-320px); filter: blur(7px) brightness(0.55); opacity: 0.1; }
   .hero .inner { max-width: 1080px; }
   .hero .mark { margin-bottom: clamp(30px, calc(var(--u) * 3), 52px); }
   .hero .eyebrow { display: flex; align-items: center; gap: 14px; margin-bottom: clamp(18px, calc(var(--u) * 2), 34px); font-size: clamp(11px, calc(var(--u) * 0.95), 18px); letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.42); }
   .hero .eyebrow i { display: block; width: 34px; height: 2px; background: var(--accent); }
   .hero h1 { font-size: clamp(32px, calc(var(--u) * 5.4), 100px); font-weight: 800; line-height: 1.06; letter-spacing: -0.03em; margin: 0; max-width: 18ch; text-wrap: balance; }
   .hero .sub { margin: 34px 0 0; font-size: clamp(15px, calc(var(--u) * 1.35), 25px); line-height: 1.6; color: rgba(255,255,255,0.6); max-width: 52ch; text-wrap: pretty; }
-  .cue { position: absolute; bottom: 40px; left: clamp(32px, calc(var(--u) * 9), 200px); display: flex; align-items: center; gap: 12px; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.32); }
-  .cue .line { display: block; position: relative; width: 1px; height: 42px; background: linear-gradient(180deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.22) 45%, rgba(255,255,255,0) 100%); overflow: hidden; -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 100%); mask-image: linear-gradient(180deg, #000 0%, #000 45%, transparent 100%); }
-  .cue .line span { display: block; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(255,199,0,0) 0%, #FFC700 50%, rgba(255,199,0,0) 100%); animation: scrollTrace 2.6s cubic-bezier(.5,0,.5,1) infinite; }
 
-  /* ---------- card stack ---------- */
-  .stack { position: relative; padding-bottom: 12vh; }
-  .card { position: sticky; top: 7vh; height: 86vh; transform-origin: 50% 0%; will-change: transform, filter; border: 1px solid rgba(255,255,255,0.10); border-radius: 16px; background: linear-gradient(168deg, #2E2F33 0%, #131521 100%); box-shadow: 0 -28px 70px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.05) inset; margin: 0 clamp(16px, 4vw, 56px) 58vh; overflow: hidden; padding: clamp(32px, calc(var(--u) * 5), 118px); display: flex; flex-direction: column; justify-content: center; }
-  .card.last { border-color: rgba(255,199,0,0.22); background: radial-gradient(110% 85% at 10% 100%, rgba(255,199,0,0.13) 0%, rgba(255,199,0,0) 60%), linear-gradient(168deg, #2E2F33 0%, #131521 100%); box-shadow: 0 -28px 70px rgba(0,0,0,0.55); margin-bottom: 0; }
+  /* ---------- slides ---------- */
+  .stage { position: fixed; inset: 0; overflow: hidden; pointer-events: none; }
+  .card { pointer-events: auto; position: absolute; top: 7vh; left: clamp(16px, 4vw, 56px); right: clamp(16px, 4vw, 56px); height: 86vh; height: 86dvh; transform: translate3d(0, 110vh, 0); transform-origin: 50% 0%; will-change: transform, filter; border: 1px solid rgba(255,255,255,0.10); border-radius: 16px; background: linear-gradient(168deg, #2E2F33 0%, #131521 100%); box-shadow: 0 -28px 70px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.05) inset; overflow: hidden; padding: clamp(32px, calc(var(--u) * 5), 118px); display: flex; flex-direction: column; justify-content: center; transition: transform 900ms cubic-bezier(.16,.84,.34,1), filter 900ms cubic-bezier(.16,.84,.34,1); }
+  .card.active { transform: none; }
+  .card.behind { transform: translate3d(0, -2.4vh, 0) scale(0.92); filter: brightness(0.64) blur(1.6px); }
+  .card.last { border-color: rgba(255,199,0,0.22); background: radial-gradient(110% 85% at 10% 100%, rgba(255,199,0,0.13) 0%, rgba(255,199,0,0) 60%), linear-gradient(168deg, #2E2F33 0%, #131521 100%); box-shadow: 0 -28px 70px rgba(0,0,0,0.55); }
   .grid { display: grid; grid-template-columns: minmax(150px, 12vw) minmax(0, 1fr); gap: clamp(18px, calc(var(--u) * 3), 60px); align-items: start; }
   .rail-col { display: flex; flex-direction: column; gap: clamp(16px, calc(var(--u) * 1.8), 30px); align-items: start; }
   .motif { display: block; width: clamp(56px, calc(var(--u) * 6), 108px); height: auto; overflow: visible; }
@@ -52,6 +53,24 @@
   .closing-2 { margin: clamp(24px, calc(var(--u) * 3), 46px) 0 0; font-size: clamp(15px, calc(var(--u) * 1.35), 26px); line-height: 1.6; color: rgba(255,255,255,0.7); max-width: 46ch; text-wrap: pretty; }
   .assembly { display: block; width: clamp(72px, calc(var(--u) * 7.4), 132px); height: auto; overflow: visible; }
 
+  /* ---------- navigation controls ---------- */
+  .controls { position: fixed; left: 50%; transform: translateX(-50%); bottom: max(8px, calc(3.5vh - 20px)); z-index: 70; display: flex; align-items: center; gap: 18px; white-space: nowrap; }
+  .hint { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.5); display: flex; align-items: center; gap: 8px; margin-right: 6px; }
+  .hint .kb { display: inline-flex; align-items: center; gap: 6px; }
+  .hint kbd { font: inherit; display: inline-grid; place-items: center; min-width: 22px; height: 22px; border: 1px solid rgba(255,255,255,0.28); border-radius: 5px; color: rgba(255,255,255,0.75); letter-spacing: 0; box-shadow: 0 1px 0 rgba(255,255,255,0.12); }
+  .hint .touch { display: none; }
+  @media (hover: none) { .hint .kb { display: none; } .hint .touch { display: inline; } }
+  .count { font-size: 12px; letter-spacing: 0.16em; color: rgba(255,255,255,0.6); font-variant-numeric: tabular-nums; min-width: 64px; text-align: center; }
+  .nav { all: unset; box-sizing: border-box; cursor: pointer; width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid rgba(255,199,0,0.55); border-radius: 8px; color: var(--accent); transition: background 260ms ease, border-color 260ms ease, transform 260ms cubic-bezier(.22,.61,.36,1), opacity 260ms ease; }
+  .nav svg { display: block; width: 18px; height: 10px; }
+  .nav:hover { background: rgba(255,199,0,0.10); border-color: var(--accent); }
+  .nav.next:hover { transform: translateX(3px); }
+  .nav.prev:hover { transform: translateX(-3px); }
+  .nav:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .nav[aria-disabled="true"] { opacity: 0.25; pointer-events: none; }
+  .nav.pulse { animation: navPulse 2s ease-in-out infinite; }
+  @keyframes navPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(255,199,0,0); } 50% { box-shadow: 0 0 0 7px rgba(255,199,0,0.14); border-color: var(--accent); } }
+
   /* ---------- reveals ---------- */
   .reveal-on [data-reveal] { opacity: 0; transform: translateY(26px); transition: opacity 1150ms cubic-bezier(.16,.84,.34,1), transform 1300ms cubic-bezier(.16,.84,.34,1); }
   .reveal-on [data-reveal].in { opacity: 1; transform: none; }
@@ -64,18 +83,21 @@
   .reveal-on [data-motif].in path:nth-of-type(2) { transition-delay: 110ms; }
   .reveal-on [data-motif].in path:nth-of-type(3) { transition-delay: 220ms; }
   .reveal-on [data-motif].in path:nth-of-type(4) { transition-delay: 330ms; }
+  .reveal-on [data-motif].in path:nth-of-type(5) { transition-delay: 440ms; }
   .reveal-on [data-assembly] [data-phase] { opacity: 0; transition: opacity 900ms ease; }
   .reveal-on [data-assembly] path { opacity: 0; transform: scale(0.86) rotate(-14deg); transform-origin: 60px 60px; transition: opacity 700ms ease, transform 900ms cubic-bezier(.16,.84,.34,1); }
   .reveal-on [data-assembly].in [data-phase], .reveal-on [data-assembly].in path { opacity: 1; }
   .reveal-on [data-assembly].in path { transform: none; }
-  .reveal-on [data-assembly].in [data-phase="2"], .reveal-on [data-assembly].in [data-phase="2"] path { transition-delay: 560ms; }
-  .reveal-on [data-assembly].in [data-phase="3"], .reveal-on [data-assembly].in [data-phase="3"] path { transition-delay: 1120ms; }
-  .reveal-on [data-assembly].in [data-phase="4"], .reveal-on [data-assembly].in [data-phase="4"] path { transition-delay: 1680ms; }
+  .reveal-on [data-assembly].in [data-phase="2"], .reveal-on [data-assembly].in [data-phase="2"] path { transition-delay: 480ms; }
+  .reveal-on [data-assembly].in [data-phase="3"], .reveal-on [data-assembly].in [data-phase="3"] path { transition-delay: 960ms; }
+  .reveal-on [data-assembly].in [data-phase="4"], .reveal-on [data-assembly].in [data-phase="4"] path { transition-delay: 1440ms; }
+  .reveal-on [data-assembly].in [data-phase="5"], .reveal-on [data-assembly].in [data-phase="5"] path { transition-delay: 1920ms; }
   .reveal-on [data-motif] path[data-neon] { opacity: 0; transform: none; transition: none; }
   .reveal-on [data-motif].in path[data-neon] { opacity: 0; transform: none; animation: neonOn 1150ms cubic-bezier(.4,0,.5,1) forwards; }
   .reveal-on [data-motif].in path[data-neon]:nth-of-type(2) { animation-delay: 560ms; }
   .reveal-on [data-motif].in path[data-neon]:nth-of-type(3) { animation-delay: 700ms; }
   .reveal-on [data-motif].in path[data-neon]:nth-of-type(4) { animation-delay: 840ms; }
+  .reveal-on [data-motif].in path[data-neon]:nth-of-type(5) { animation-delay: 980ms; }
   @keyframes neonOn {
     0%   { opacity: 0; filter: none; }
     6%   { opacity: 1; filter: drop-shadow(0 0 7px rgba(255,199,0,0.55)); }
@@ -87,22 +109,24 @@
     55%  { opacity: 1; filter: drop-shadow(0 0 11px rgba(255,199,0,0.45)); }
     100% { opacity: 1; filter: drop-shadow(0 0 0 rgba(255,199,0,0)); }
   }
-  @keyframes scrollTrace { 0% { transform: translateY(-100%); } 55% { transform: translateY(240%); } 100% { transform: translateY(240%); } }
 
   /* ---------- small screens ---------- */
   @media (max-width: 720px) {
     header { padding: 20px 20px; }
     .rail { display: none; }
     .hero { padding: 0 24px; }
-    .cue { left: 24px; }
-    .card { padding: 28px 22px; }
+    .card { top: 56px; height: calc(100vh - 124px); height: calc(100dvh - 124px); padding: 26px 22px; justify-content: flex-start; overflow-y: auto; }
     .grid { grid-template-columns: 1fr; gap: 22px; }
     .rail-col { flex-direction: row; align-items: center; justify-content: space-between; width: 100%; }
     .motif { width: 44px; }
     .assembly { width: 56px; }
+    .controls { bottom: 14px; gap: 14px; }
+    .hint { display: none; }
+    .nav { width: 44px; height: 44px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .cue .line span { animation: none; opacity: 0.9; }
+    .nav.pulse { animation: none; }
+    .hero, .card, .progress > div { transition: none; }
     .reveal-on [data-reveal] { opacity: 1; transform: none; transition: none; }
     .reveal-on [data-motif] path, .reveal-on [data-assembly] path { opacity: 1; transform: none; transition: none; }
     .reveal-on [data-motif].in path[data-neon], .reveal-on [data-motif] path[data-neon] { opacity: 1; animation: none; }
@@ -123,23 +147,22 @@
   <div class="rail" id="rail"><span></span><span></span><span></span><span></span><span></span></div>
 
   <div class="hero-wrap">
-    <section class="hero" data-hero>
+    <section class="hero">
       <div class="inner">
         <div data-reveal class="mark"><svg viewBox="0 0 105 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="bkmn" style="display:block; height:clamp(24px, calc(var(--u) * 2.5), 52px); width:auto"><path d="M92.9351 15.3565C89.8151 15.3565 88.411 17.8915 88.411 20.8555V29.8255H82.873V20.1925C82.873 14.5765 86.1881 9.9745 92.9351 9.9745C99.6821 9.9745 103.075 14.5375 103.075 20.1925V29.8255H97.537V20.8555C97.537 17.8915 96.0941 15.3565 92.9351 15.3565Z" fill="#ffffff"/><path d="M70.692 9.8185C76.971 9.8185 80.169 14.3425 80.169 19.7245V29.8255H74.631V20.6605C74.631 17.6965 73.344 15.2005 70.302 15.2005C67.299 15.2005 66.012 17.6575 66.012 20.5825V29.8255H60.474V20.6215C60.474 17.6575 59.187 15.2005 56.184 15.2005C53.103 15.2005 51.894 17.6965 51.894 20.6215V29.8255H46.356V19.7245C46.356 14.3425 49.515 9.8185 55.755 9.8185C59.46 9.8185 62.151 11.4565 63.282 14.1085C64.491 11.4565 67.221 9.8185 70.692 9.8185Z" fill="#ffffff"/><path d="M30.8964 29.8255H25.3584V1.6285H30.8964V18.0085H32.7294C32.9244 17.6575 33.1584 17.3065 33.4314 16.9555L38.7744 10.5205H45.3654L37.3314 20.1145L45.3264 29.8255H38.7354L33.3924 23.2735C33.1194 22.9225 32.8854 22.5325 32.6904 22.1425H30.8964V29.8255Z" fill="#FFC700"/><path d="M12.3768 30.3715C6.37081 30.3715 1.9248 26.0425 1.9248 20.1925V1.6285H7.4628V11.7685C8.9058 10.6765 10.7388 9.9745 12.6888 9.9745C18.6948 9.9745 22.8288 14.1865 22.8288 20.1925C22.8288 25.7695 18.3438 30.3715 12.3768 30.3715ZM12.3768 25.1455C15.2238 25.1455 17.2908 22.9225 17.2908 20.1925C17.2908 17.4625 15.2238 15.2005 12.3768 15.2005C9.52981 15.2005 7.4628 17.4625 7.4628 20.1925C7.4628 22.9225 9.52981 25.1455 12.3768 25.1455Z" fill="#ffffff"/></svg></div>
         <div data-reveal data-delay="1" class="eyebrow"><i></i>Round two</div>
         <h1 data-reveal data-delay="2">What I'd bring back to Tiled, and what I'd do differently this time.</h1>
         <p data-reveal data-delay="3" class="sub">Five ideas, grounded in what I learned building The Builder and what I've added since.</p>
       </div>
-      <div data-reveal data-delay="4" class="cue"><span class="line"><span></span></span>Scroll</div>
     </section>
   </div>
 
-  <div class="stack">
+  <div class="stage">
 
     <div data-card class="card">
       <div class="grid">
         <div class="rail-col">
-          <svg data-motif data-reveal data-delay="2" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="motif" aria-hidden="true"><path d="M60 60V16A44 44 0 0 1 104 60Z" fill="#FFC700"/></svg>
+          <svg data-motif data-reveal data-delay="2" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="motif" aria-hidden="true"><path d="M60 60L60.0 16.0A44 44 0 0 1 101.85 46.4Z" fill="#FFC700"/></svg>
           <div data-reveal data-delay="1" class="phase"><span class="num">01</span><span class="lab">Partnership</span></div>
         </div>
         <div class="copy">
@@ -152,12 +175,12 @@
     <div data-card class="card">
       <div class="grid">
         <div class="rail-col">
-          <svg data-motif data-reveal data-delay="2" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="motif" aria-hidden="true"><path d="M60 60V16A44 44 0 0 1 104 60Z" fill="rgba(255,199,0,0.2)"/><path d="M60 60H104A44 44 0 0 1 60 104Z" data-neon fill="#FFC700"/></svg>
+          <svg data-motif data-reveal data-delay="2" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="motif" aria-hidden="true"><path d="M60 60L60.0 16.0A44 44 0 0 1 101.85 46.4Z" fill="rgba(255,199,0,0.2)"/><path d="M60 60L101.85 46.4A44 44 0 0 1 85.86 95.6Z" data-neon fill="#FFC700"/></svg>
           <div data-reveal data-delay="1" class="phase"><span class="num">02</span><span class="lab">Function</span></div>
         </div>
         <div class="copy">
           <h2 data-reveal>Function before form.</h2>
-          <p data-reveal data-delay="1" class="body">If you&#x27;ve worked with me, you know how much pride I take in craft. Some of you have been through rounds of my pixel-level feedback before a launch. I still care about craft, but how I work has changed. Function comes before form almost every time. It doesn&#x27;t matter how good something looks if it doesn&#x27;t solve the user&#x27;s problem or doesn&#x27;t work well. I&#x27;ve built things where craft came first and function second, and it showed. Now function leads, and polish follows.</p>
+          <p data-reveal data-delay="1" class="body">If you&#x27;ve worked with me, you know how much pride I take in craft. Some of you have been through rounds of my pixel-level feedback before a launch. I still care about craft, but how I work has changed. I truly feel that function should come before form almost every time. It doesn&#x27;t matter how good something looks if it doesn&#x27;t solve the user&#x27;s problem or doesn&#x27;t work well. I&#x27;ve built things where craft came first and function second, and it showed. Now function leads, and polish follows.</p>
         </div>
       </div>
     </div>
@@ -165,7 +188,7 @@
     <div data-card class="card">
       <div class="grid">
         <div class="rail-col">
-          <svg data-motif data-reveal data-delay="2" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="motif" aria-hidden="true"><path d="M60 60V16A44 44 0 0 1 104 60Z" fill="rgba(255,199,0,0.2)"/><path d="M60 60H104A44 44 0 0 1 60 104Z" fill="rgba(255,199,0,0.2)"/><path d="M60 60V104A44 44 0 0 1 16 60Z" data-neon fill="#FFC700"/></svg>
+          <svg data-motif data-reveal data-delay="2" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="motif" aria-hidden="true"><path d="M60 60L60.0 16.0A44 44 0 0 1 101.85 46.4Z" fill="rgba(255,199,0,0.2)"/><path d="M60 60L101.85 46.4A44 44 0 0 1 85.86 95.6Z" fill="rgba(255,199,0,0.2)"/><path d="M60 60L85.86 95.6A44 44 0 0 1 34.14 95.6Z" data-neon fill="#FFC700"/></svg>
           <div data-reveal data-delay="1" class="phase"><span class="num">03</span><span class="lab">Advocacy</span></div>
         </div>
         <div class="copy">
@@ -178,7 +201,7 @@
     <div data-card class="card">
       <div class="grid">
         <div class="rail-col">
-          <svg data-motif data-reveal data-delay="2" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="motif" aria-hidden="true"><path d="M60 60V16A44 44 0 0 1 104 60Z" fill="rgba(255,199,0,0.2)"/><path d="M60 60H104A44 44 0 0 1 60 104Z" fill="rgba(255,199,0,0.2)"/><path d="M60 60V104A44 44 0 0 1 16 60Z" fill="rgba(255,199,0,0.2)"/><path d="M60 60H16A44 44 0 0 1 60 16Z" data-neon fill="#FFC700"/></svg>
+          <svg data-motif data-reveal data-delay="2" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="motif" aria-hidden="true"><path d="M60 60L60.0 16.0A44 44 0 0 1 101.85 46.4Z" fill="rgba(255,199,0,0.2)"/><path d="M60 60L101.85 46.4A44 44 0 0 1 85.86 95.6Z" fill="rgba(255,199,0,0.2)"/><path d="M60 60L85.86 95.6A44 44 0 0 1 34.14 95.6Z" fill="rgba(255,199,0,0.2)"/><path d="M60 60L34.14 95.6A44 44 0 0 1 18.15 46.4Z" data-neon fill="#FFC700"/></svg>
           <div data-reveal data-delay="1" class="phase"><span class="num">04</span><span class="lab">Outcomes</span></div>
         </div>
         <div class="copy">
@@ -191,7 +214,7 @@
     <div data-card class="card">
       <div class="grid">
         <div class="rail-col">
-          <svg data-motif data-reveal data-delay="2" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="motif" aria-hidden="true"><path d="M60 60V16A44 44 0 0 1 104 60Z" data-neon fill="#FFC700"/><path d="M60 60H104A44 44 0 0 1 60 104Z" data-neon fill="#FFC700"/><path d="M60 60V104A44 44 0 0 1 16 60Z" data-neon fill="#FFC700"/><path d="M60 60H16A44 44 0 0 1 60 16Z" data-neon fill="#FFC700"/></svg>
+          <svg data-motif data-reveal data-delay="2" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="motif" aria-hidden="true"><path d="M60 60L60.0 16.0A44 44 0 0 1 101.85 46.4Z" fill="rgba(255,199,0,0.2)"/><path d="M60 60L101.85 46.4A44 44 0 0 1 85.86 95.6Z" fill="rgba(255,199,0,0.2)"/><path d="M60 60L85.86 95.6A44 44 0 0 1 34.14 95.6Z" fill="rgba(255,199,0,0.2)"/><path d="M60 60L34.14 95.6A44 44 0 0 1 18.15 46.4Z" fill="rgba(255,199,0,0.2)"/><path d="M60 60L18.15 46.4A44 44 0 0 1 60.0 16.0Z" data-neon fill="#FFC700"/></svg>
           <div data-reveal data-delay="1" class="phase"><span class="num">05</span><span class="lab">Enablement</span></div>
         </div>
         <div class="copy">
@@ -201,10 +224,10 @@
       </div>
     </div>
 
-    <div data-card data-last class="card last">
+    <div class="card last">
       <div class="grid">
         <div>
-          <svg data-assembly data-reveal data-delay="2" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="assembly" aria-hidden="true"><g data-phase="1"><path d="M60 60V16A44 44 0 0 1 104 60Z" fill="#FFC700"/></g><g data-phase="2"><path d="M60 60H104A44 44 0 0 1 60 104Z" fill="#FFC700"/></g><g data-phase="3"><path d="M60 60V104A44 44 0 0 1 16 60Z" fill="#FFC700"/></g><g data-phase="4"><path d="M60 60H16A44 44 0 0 1 60 16Z" fill="#FFC700"/></g></svg>
+          <svg data-assembly data-reveal data-delay="2" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="assembly" aria-hidden="true"><g data-phase="1"><path d="M60 60L60.0 16.0A44 44 0 0 1 101.85 46.4Z" fill="#FFC700"/></g><g data-phase="2"><path d="M60 60L101.85 46.4A44 44 0 0 1 85.86 95.6Z" fill="#FFC700"/></g><g data-phase="3"><path d="M60 60L85.86 95.6A44 44 0 0 1 34.14 95.6Z" fill="#FFC700"/></g><g data-phase="4"><path d="M60 60L34.14 95.6A44 44 0 0 1 18.15 46.4Z" fill="#FFC700"/></g><g data-phase="5"><path d="M60 60L18.15 46.4A44 44 0 0 1 60.0 16.0Z" fill="#FFC700"/></g></svg>
         </div>
         <div class="copy">
           <p data-reveal data-delay="1" class="closing">I'm not coming back to work the way I used to. I'm coming back to work the way Tiled works now, and to help make it even better.</p>
@@ -213,71 +236,99 @@
       </div>
     </div>
   </div>
+
+  <nav class="controls" aria-label="Slide navigation">
+    <span class="hint"><span class="kb">Use <kbd>&larr;</kbd><kbd>&rarr;</kbd> to navigate</span><span class="touch">Swipe or tap to navigate</span></span>
+    <button class="nav prev" id="prev" aria-label="Previous slide"><svg viewBox="0 0 22 12" fill="none" aria-hidden="true"><path d="M21 6H1M1 6L6.4 1M1 6L6.4 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <span class="count" id="count" aria-live="polite">Intro</span>
+    <button class="nav next pulse" id="next" aria-label="Next slide"><svg viewBox="0 0 22 12" fill="none" aria-hidden="true"><path d="M1 6H21M21 6L15.6 1M21 6L15.6 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </nav>
 </div>
 
 <script>
 (function () {
-  var root = document.getElementById('root');
   var progress = document.getElementById('progress');
   var rail = document.getElementById('rail');
   var ticks = [].slice.call(rail.children);
-  var hero = document.querySelector('[data-hero]');
-  var cards = [].slice.call(document.querySelectorAll('[data-card]'));
+  var prev = document.getElementById('prev');
+  var next = document.getElementById('next');
+  var count = document.getElementById('count');
+  var hero = document.querySelector('.hero');
+  var cards = [].slice.call(document.querySelectorAll('.card'));
+  var slides = [hero].concat(cards);
+  var last = slides.length - 1;
+  var idx = 0;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Hero reveals on intersection; card content reveals when the card docks (see frame()).
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-  }, { threshold: 0.2, rootMargin: '0px 0px -12% 0px' });
-  hero.querySelectorAll('[data-reveal]').forEach(function (el) { io.observe(el); });
-  setTimeout(function () {
-    if (!hero.querySelector('[data-reveal].in')) hero.querySelectorAll('[data-reveal]').forEach(function (el) { el.classList.add('in'); });
-  }, 1200);
-
-  var ease = function (t) { return t * t * (3 - 2 * t); };
-  var clamp01 = function (t) { return Math.min(1, Math.max(0, t)); };
-  var ticking = false;
-
-  function frame() {
-    ticking = false;
-    var winH = window.innerHeight;
-    var rest = winH * 0.07;
-
-    var h = ease(clamp01(window.scrollY / (winH * 0.92)));
-    hero.style.transform = 'translate3d(0,0,' + (-320 * h).toFixed(1) + 'px)';
-    hero.style.filter = 'blur(' + (7 * h).toFixed(2) + 'px) brightness(' + (1 - 0.45 * h).toFixed(3) + ')';
-    hero.style.opacity = (1 - 0.9 * h).toFixed(3);
-
-    cards.forEach(function (card, i) {
-      if (!card.dataset.revealed && card.getBoundingClientRect().top <= rest + 8) {
-        card.dataset.revealed = '1';
-        card.querySelectorAll('[data-reveal]').forEach(function (el) { el.classList.add('in'); });
-      }
-      var next = cards[i + 1];
-      if (!next) { card.style.transform = ''; card.style.filter = ''; return; }
-      var p = ease(clamp01((winH - next.getBoundingClientRect().top) / (winH - rest)));
-      card.style.transform = 'translate3d(0,' + (-2.4 * p).toFixed(2) + 'vh,0) scale(' + (1 - 0.08 * p).toFixed(4) + ')';
-      card.style.filter = 'brightness(' + (1 - 0.36 * p).toFixed(3) + ') blur(' + (1.6 * p).toFixed(2) + 'px)';
-    });
-
-    var active = -1;
-    cards.forEach(function (card, i) {
-      if (!card.hasAttribute('data-last') && card.getBoundingClientRect().top <= winH * 0.4) active = i;
-    });
-    rail.style.opacity = active >= 0 ? '1' : '0';
-    ticks.forEach(function (tick, i) {
-      var on = i === active;
-      tick.style.width = on ? '30px' : '14px';
-      tick.style.background = on ? '#FFC700' : 'rgba(255,255,255,0.45)';
-      tick.style.opacity = on ? '1' : (i < active ? '0.85' : '0.6');
-    });
-
-    var max = document.documentElement.scrollHeight - window.innerHeight;
-    progress.style.width = (max > 0 ? Math.min(100, (window.scrollY / max) * 100) : 0) + '%';
+  // Content plays once per slide, shortly after the card lands (as the dock used to).
+  function reveal(el) {
+    if (el.dataset.revealed) return;
+    el.dataset.revealed = '1';
+    var run = function () { el.querySelectorAll('[data-reveal]').forEach(function (n) { n.classList.add('in'); }); };
+    if (reduce || el === hero) requestAnimationFrame(run); else setTimeout(run, 450);
   }
-  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll);
-  frame();
+
+  function render() {
+    hero.classList.toggle('behind', idx > 0);
+    if (idx === 0) hero.removeAttribute('inert'); else hero.setAttribute('inert', '');
+    cards.forEach(function (c, i) {
+      var s = i + 1;
+      c.classList.toggle('active', s === idx);
+      c.classList.toggle('behind', s < idx && s !== last);
+      if (s === idx) c.removeAttribute('inert'); else c.setAttribute('inert', '');
+      c.style.zIndex = s;
+    });
+    reveal(slides[idx]);
+
+    var active = idx === 0 ? -1 : Math.min(idx, 5) - 1;
+    rail.style.opacity = idx > 0 ? '1' : '0';
+    ticks.forEach(function (t, i) {
+      var on = i === active && idx <= 5;
+      t.style.width = on ? '30px' : '14px';
+      t.style.background = on ? '#FFC700' : 'rgba(255,255,255,0.45)';
+      t.style.opacity = on ? '1' : (i < active || idx > 5 ? '0.85' : '0.6');
+    });
+    progress.style.width = (idx / last * 100) + '%';
+    count.textContent = idx === 0 ? 'Intro' : idx === last ? 'Close' : String(idx).padStart(2, '0') + ' / 05';
+    prev.setAttribute('aria-disabled', idx === 0 ? 'true' : 'false');
+    next.setAttribute('aria-disabled', idx === last ? 'true' : 'false');
+  }
+
+  function go(n) {
+    n = Math.max(0, Math.min(last, n));
+    if (n === idx) return;
+    idx = n;
+    next.classList.remove('pulse');
+    render();
+  }
+
+  prev.addEventListener('click', function () { go(idx - 1); });
+  next.addEventListener('click', function () { go(idx + 1); });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var k = e.key;
+    if (k === 'ArrowRight' || k === 'ArrowDown' || k === 'PageDown' || k === ' ') { e.preventDefault(); go(idx + 1); }
+    else if (k === 'ArrowLeft' || k === 'ArrowUp' || k === 'PageUp') { e.preventDefault(); go(idx - 1); }
+    else if (k === 'Home') { e.preventDefault(); go(0); }
+    else if (k === 'End') { e.preventDefault(); go(last); }
+  });
+
+  // swipe: horizontal only, so tall cards can still scroll on small screens
+  var sx = null, sy = null;
+  document.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+  document.addEventListener('touchend', function (e) {
+    if (sx === null) return;
+    var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+    sx = sy = null;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) go(idx + (dx < 0 ? 1 : -1));
+  }, { passive: true });
+
+  // a click anywhere gives an embedded iframe keyboard focus
+  document.addEventListener('pointerdown', function () { window.focus(); });
+  window.focus();
+
+  render();
 })();
 </script>
 </body>
