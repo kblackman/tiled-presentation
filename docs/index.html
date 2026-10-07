@@ -45,7 +45,7 @@
 
   /* ---------- slides ---------- */
   .stage { position: fixed; inset: 0; overflow: hidden; pointer-events: none; }
-  .card { pointer-events: auto; position: absolute; top: 7vh; left: clamp(16px, 4vw, 56px); right: clamp(16px, 4vw, 56px); height: 86vh; height: 86dvh; transform: translate3d(0, 110vh, 0); transform-origin: 50% 0%; will-change: transform, filter; border: 1px solid rgba(255,255,255,0.10); border-radius: 16px; background: linear-gradient(168deg, #2E2F33 0%, #131521 100%); box-shadow: 0 -28px 70px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.05) inset; overflow: hidden; padding: clamp(32px, calc(var(--u) * 5), 118px); display: flex; flex-direction: column; justify-content: center; transition: transform 900ms cubic-bezier(.16,.84,.34,1), filter 900ms cubic-bezier(.16,.84,.34,1); }
+  .card { pointer-events: auto; position: absolute; top: 7vh; left: clamp(16px, 4vw, 56px); right: clamp(16px, 4vw, 56px); height: 80vh; height: 80dvh; transform: translate3d(0, 110vh, 0); transform-origin: 50% 0%; will-change: transform, filter; border: 1px solid rgba(255,255,255,0.10); border-radius: 16px; background: linear-gradient(168deg, #2E2F33 0%, #131521 100%); box-shadow: 0 -28px 70px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.05) inset; overflow: hidden; padding: clamp(32px, calc(var(--u) * 5), 118px); display: flex; flex-direction: column; justify-content: center; transition: transform 900ms cubic-bezier(.16,.84,.34,1), filter 900ms cubic-bezier(.16,.84,.34,1); }
   .card.active { transform: none; }
   .card.behind { transform: translate3d(0, -2.4vh, 0) scale(0.92); filter: brightness(0.64) blur(1.6px); }
   .card.last { border-color: rgba(255,199,0,0.22); background: radial-gradient(110% 85% at 10% 100%, rgba(255,199,0,0.13) 0%, rgba(255,199,0,0) 60%), linear-gradient(168deg, #2E2F33 0%, #131521 100%); box-shadow: 0 -28px 70px rgba(0,0,0,0.55); }
@@ -63,26 +63,47 @@
   .assembly { display: block; width: clamp(72px, calc(var(--u) * 7.4), 132px); height: auto; overflow: visible; }
 
   /* ---------- navigation controls ---------- */
-  .controls { position: fixed; left: 50%; transform: translateX(-50%); bottom: max(8px, calc(3.5vh - 20px)); z-index: 70; display: flex; align-items: center; gap: 12px; white-space: nowrap; }
-  .hint { display: flex; align-items: center; gap: 8px; margin: 0 16px; font-size: 12px; letter-spacing: 0.02em; color: rgba(255,255,255,0.45); }
-  .hint .kb { display: inline-flex; align-items: center; gap: 6px; }
-  .hint .touch { display: none; }
-  .hint kbd { font: inherit; letter-spacing: 0; display: inline-grid; place-items: center; min-width: 24px; height: 24px; border: 1px solid rgba(255,255,255,0.25); border-radius: 6px; color: rgba(255,255,255,0.6); box-shadow: 0 1px 0 rgba(255,255,255,0.10); }
-  .hint .kb span { margin-left: 4px; }
-  .pill { all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; height: 40px; padding: 0 20px; border-radius: 999px; font-size: 14px; border: 1px solid; transition: background 260ms ease, border-color 260ms ease, color 260ms ease, transform 260ms cubic-bezier(.22,.61,.36,1), opacity 260ms ease; }
-  .pill svg { display: block; width: 18px; height: 10px; flex: none; }
+  .controls { position: fixed; left: 0; right: 0; bottom: max(10px, calc(6.5vh - 30px)); padding: 0 calc(clamp(16px, 4vw, 56px) + 4px); z-index: 70; display: flex; align-items: center; justify-content: space-between; pointer-events: none; transition: opacity 400ms ease, visibility 0s linear 0s; }
+  .controls > * { pointer-events: auto; }
+  .controls.is-hidden { opacity: 0; visibility: hidden; transition: opacity 400ms ease, visibility 0s linear 400ms; }
+  .controls.is-hidden > * { pointer-events: none; }
+  .count { font-size: clamp(13px, calc(var(--u) * 1.15), 20px); letter-spacing: 0.06em; color: rgba(255,255,255,0.6); font-variant-numeric: tabular-nums; }
+  .btns { display: flex; align-items: center; gap: 12px; }
+  .pill { all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; gap: 14px; padding: clamp(13px, calc(var(--u) * 1.2), 17px) clamp(22px, calc(var(--u) * 2.1), 30px); border-radius: 999px; font-size: clamp(14px, calc(var(--u) * 1.15), 21px); border: 1px solid; transition: background 260ms ease, border-color 260ms ease, color 260ms ease, transform 260ms cubic-bezier(.22,.61,.36,1), opacity 260ms ease; }
+  .pill svg { display: block; width: 22px; height: 12px; flex: none; }
   .pill.primary { color: var(--accent); border-color: rgba(255,199,0,0.55); }
-  .pill.primary:hover { background: rgba(255,199,0,0.10); border-color: var(--accent); transform: translateX(3px); }
+  .pill.primary:hover { background: rgba(255,199,0,0.10); border-color: var(--accent); transform: translateX(4px); }
   .pill.secondary { color: rgba(255,255,255,0.7); border-color: rgba(255,255,255,0.28); }
-  .pill.secondary:hover { color: #fff; border-color: rgba(255,255,255,0.55); background: rgba(255,255,255,0.06); transform: translateX(-3px); }
+  .pill.secondary:hover { color: #fff; border-color: rgba(255,255,255,0.55); background: rgba(255,255,255,0.06); transform: translateX(-4px); }
   .pill:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .pill[aria-disabled="true"] { opacity: 0.22; pointer-events: none; }
-  .controls { transition: opacity 400ms ease, visibility 0s linear 0s; }
-  .controls.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 400ms ease, visibility 0s linear 400ms; }
-  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .begin-row { margin-top: clamp(30px, calc(var(--u) * 3.4), 56px); display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
   .begin-hint { font-size: clamp(12px, calc(var(--u) * 1), 16px); letter-spacing: 0.04em; color: rgba(255,255,255,0.5); }
-  @media (hover: none) { .hint .kb, .begin-hint { display: none; } .hint .touch { display: inline; } }
+  @media (hover: none) { .begin-hint { display: none; } }
+
+  /* ---------- first-run keyboard popover ---------- */
+  .coach { position: fixed; z-index: 80; width: min(340px, calc(100vw - 32px)); padding: 18px; border-radius: 18px; background: #fff; color: #14151c; box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.25); opacity: 0; visibility: hidden; transform: translateY(10px) scale(0.98); transform-origin: calc(var(--ax, 80%)) 100%; transition: opacity 260ms ease, transform 360ms cubic-bezier(.16,.84,.34,1), visibility 0s linear 360ms; }
+  .coach.show { opacity: 1; visibility: visible; transform: none; transition: opacity 260ms ease, transform 360ms cubic-bezier(.16,.84,.34,1), visibility 0s; }
+  .coach::after { content: ""; position: absolute; bottom: -7px; left: var(--ax, 80%); width: 16px; height: 16px; margin-left: -8px; background: #fff; transform: rotate(45deg); border-radius: 3px; }
+  .coach-art { display: grid; place-items: center; padding: 20px 0; border-radius: 12px; background: #f1f2f4; }
+  .keys { display: grid; grid-template-columns: repeat(3, 56px); grid-template-rows: repeat(2, 48px); gap: 6px; }
+  .key { display: grid; place-items: center; border-radius: 10px; background: #fff; border: 1px solid #d5d8de; color: #3a3d47; box-shadow: 0 4px 0 #cfd2d9; }
+  .key svg { display: block; width: 16px; height: 16px; }
+  .key.up { grid-column: 2; grid-row: 1; }
+  .key.left { grid-column: 1; grid-row: 2; }
+  .key.down { grid-column: 2; grid-row: 2; }
+  .key.right { grid-column: 3; grid-row: 2; }
+  .key.hot { background: #FFC700; border-color: #e0ae00; color: #1a1400; box-shadow: 0 4px 0 #b88a00; animation: keyPress 2.4s ease-in-out infinite; }
+  .key.hot.right { animation-delay: 1.2s; }
+  @keyframes keyPress { 0%, 42%, 100% { transform: none; box-shadow: 0 4px 0 #b88a00; } 10%, 28% { transform: translateY(4px); box-shadow: 0 0 0 #b88a00; } }
+  .coach h3 { margin: 16px 0 0; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.25; }
+  .coach p { margin: 6px 0 0; font-size: 14px; line-height: 1.5; color: #4b4f5c; }
+  .coach-foot { margin-top: 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .coach-foot label { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: #4b4f5c; cursor: pointer; }
+  .coach-foot input { width: 17px; height: 17px; margin: 0; accent-color: #d99f00; cursor: pointer; }
+  .coach-ok { all: unset; box-sizing: border-box; cursor: pointer; padding: 10px 22px; border-radius: 999px; background: #FFC700; color: #1a1400; font-size: 14px; font-weight: 600; transition: background 200ms ease; }
+  .coach-ok:hover { background: #ffd33d; }
+  .coach-ok:focus-visible, .coach-foot input:focus-visible { outline: 2px solid #1a1400; outline-offset: 2px; }
 
   /* ---------- reveals ---------- */
   .reveal-on [data-reveal] { opacity: 0; transform: translateY(26px); transition: opacity 1150ms cubic-bezier(.16,.84,.34,1), transform 1300ms cubic-bezier(.16,.84,.34,1); }
@@ -133,13 +154,13 @@
     .rail-col { flex-direction: row; align-items: center; justify-content: space-between; width: 100%; }
     .motif { width: 44px; }
     .assembly { width: 56px; }
-    .controls { bottom: 14px; gap: 8px; }
-    .hint .kb, .begin-hint { display: none; }
-    .hint .touch { display: inline; }
-    .pill { height: 44px; padding: 0 18px; }
-    .hint { margin: 0 6px; }
+    .controls { bottom: 14px; padding: 0 16px; }
+    .btns { gap: 8px; }
+    .pill { padding: 14px 18px; gap: 10px; font-size: 15px; }
   }
   @media (prefers-reduced-motion: reduce) {
+    .key.hot { animation: none; }
+    .coach, .coach.show { transition: none; }
     .hero, .card, .progress > div { transition: none; }
     .reveal-on [data-reveal] { opacity: 1; transform: none; transition: none; }
     .reveal-on [data-motif] path, .reveal-on [data-assembly] path { opacity: 1; transform: none; transition: none; }
@@ -253,11 +274,29 @@
   </div>
 
   <nav class="controls" aria-label="Slide navigation">
-    <button class="pill secondary" id="prev" type="button" aria-label="Previous slide"><svg viewBox="0 0 22 12" fill="none" aria-hidden="true"><path d="M21 6H1M1 6L6.4 1M1 6L6.4 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Back</button>
-    <span class="hint"><span class="kb"><kbd aria-hidden="true">&larr;</kbd><kbd aria-hidden="true">&rarr;</kbd><span>or use your arrow keys</span></span><span class="touch">or swipe</span></span>
-    <button class="pill primary" id="next" type="button" aria-label="Next slide">Next<svg viewBox="0 0 22 12" fill="none" aria-hidden="true"><path d="M1 6H21M21 6L15.6 1M21 6L15.6 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    <span class="sr-only" id="count" aria-live="polite">Intro</span>
+    <span class="count" id="count" aria-live="polite">1 / 6</span>
+    <div class="btns">
+      <button class="pill secondary" id="prev" type="button" aria-label="Previous slide"><svg viewBox="0 0 22 12" fill="none" aria-hidden="true"><path d="M21 6H1M1 6L6.4 1M1 6L6.4 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Back</button>
+      <button class="pill primary" id="next" type="button" aria-label="Next slide">Next<svg viewBox="0 0 22 12" fill="none" aria-hidden="true"><path d="M1 6H21M21 6L15.6 1M21 6L15.6 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
   </nav>
+
+  <div class="coach" id="coach" role="dialog" aria-labelledby="coach-title">
+    <div class="coach-art" aria-hidden="true">
+      <div class="keys">
+        <span class="key up"><svg viewBox="0 0 16 16" fill="none"><path d="M8 13V3M8 3L3.5 7.5M8 3L12.5 7.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="key left hot"><svg viewBox="0 0 16 16" fill="none"><path d="M13 8H3M3 8L7.5 3.5M3 8L7.5 12.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="key down"><svg viewBox="0 0 16 16" fill="none"><path d="M8 3V13M8 13L3.5 8.5M8 13L12.5 8.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="key right hot"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L8.5 3.5M13 8L8.5 12.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </div>
+    </div>
+    <h3 id="coach-title">Move through slides with your keyboard</h3>
+    <p>Press &rarr; for the next slide and &larr; to go back. You can also use the buttons below.</p>
+    <div class="coach-foot">
+      <label><input type="checkbox" id="coach-never"> Don&rsquo;t show again</label>
+      <button class="coach-ok" id="coach-ok" type="button">Got it</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -269,6 +308,11 @@
   var next = document.getElementById('next');
   var count = document.getElementById('count');
   var controls = document.querySelector('.controls');
+  var coach = document.getElementById('coach');
+  var coachNever = document.getElementById('coach-never');
+  var canCoach = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var coachDismissed = false, coachTimer = null;
+  try { if (sessionStorage.getItem('tiled-coach-off') === '1') coachDismissed = true; } catch (e) {}
   var hero = document.querySelector('.hero');
   var cards = [].slice.call(document.querySelectorAll('.card'));
   var slides = [hero].concat(cards);
@@ -305,12 +349,40 @@
       t.style.opacity = on ? '1' : (i < active || idx > 5 ? '0.85' : '0.6');
     });
     progress.style.width = (idx / last * 100) + '%';
-    count.textContent = idx === 0 ? 'Intro' : idx === last ? 'Close' : String(idx).padStart(2, '0') + ' / 05';
+    count.textContent = idx + ' / ' + last;
     home.setAttribute('aria-disabled', idx === 0 ? 'true' : 'false');
     controls.classList.toggle('is-hidden', idx === 0);
     prev.setAttribute('aria-disabled', idx === 0 ? 'true' : 'false');
     next.setAttribute('aria-disabled', idx === last ? 'true' : 'false');
+
+    // first-run keyboard popover: appears once the first card has landed
+    clearTimeout(coachTimer);
+    if (idx === 1) {
+      if (!coachDismissed && canCoach) coachTimer = setTimeout(showCoach, reduce ? 300 : 1500);
+    } else if (coach.classList.contains('show')) {
+      hideCoach();
+    }
   }
+
+  function placeCoach() {
+    var r = next.getBoundingClientRect();
+    coach.style.right = Math.max(8, window.innerWidth - r.right) + 'px';
+    coach.style.bottom = (window.innerHeight - r.top + 16) + 'px';
+    var c = coach.getBoundingClientRect();
+    var ax = Math.max(24, Math.min(c.width - 24, r.left + r.width / 2 - c.left));
+    coach.style.setProperty('--ax', ax + 'px');
+  }
+  function showCoach() { placeCoach(); coach.classList.add('show'); }
+  function hideCoach() {
+    clearTimeout(coachTimer);
+    if (!coach.classList.contains('show')) return;
+    coach.classList.remove('show');
+    coachDismissed = true;
+    // "Don't show again" lasts for this browser session only
+    if (coachNever.checked) { try { sessionStorage.setItem('tiled-coach-off', '1'); } catch (e) {} }
+  }
+  document.getElementById('coach-ok').addEventListener('click', hideCoach);
+  window.addEventListener('resize', function () { if (coach.classList.contains('show')) placeCoach(); });
 
   function go(n) {
     n = Math.max(0, Math.min(last, n));
@@ -328,6 +400,7 @@
   document.addEventListener('keydown', function (e) {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     var k = e.key;
+    if (k === 'Escape' && coach.classList.contains('show')) { hideCoach(); return; }
     if (k === 'ArrowRight' || k === 'ArrowDown' || k === 'PageDown' || k === ' ') { e.preventDefault(); go(idx + 1); }
     else if (k === 'ArrowLeft' || k === 'ArrowUp' || k === 'PageUp') { e.preventDefault(); go(idx - 1); }
     else if (k === 'Home') { e.preventDefault(); go(0); }
