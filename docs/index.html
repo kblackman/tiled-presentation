@@ -77,6 +77,8 @@
   .pill.secondary:hover { color: #fff; border-color: rgba(255,255,255,0.55); background: rgba(255,255,255,0.06); transform: translateX(-3px); }
   .pill:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .pill[aria-disabled="true"] { opacity: 0.22; pointer-events: none; }
+  .controls { transition: opacity 400ms ease, visibility 0s linear 0s; }
+  .controls.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 400ms ease, visibility 0s linear 400ms; }
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .begin-row { margin-top: clamp(30px, calc(var(--u) * 3.4), 56px); display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
   .begin-hint { font-size: clamp(12px, calc(var(--u) * 1), 16px); letter-spacing: 0.04em; color: rgba(255,255,255,0.5); }
@@ -266,6 +268,7 @@
   var prev = document.getElementById('prev');
   var next = document.getElementById('next');
   var count = document.getElementById('count');
+  var controls = document.querySelector('.controls');
   var hero = document.querySelector('.hero');
   var cards = [].slice.call(document.querySelectorAll('.card'));
   var slides = [hero].concat(cards);
@@ -304,6 +307,7 @@
     progress.style.width = (idx / last * 100) + '%';
     count.textContent = idx === 0 ? 'Intro' : idx === last ? 'Close' : String(idx).padStart(2, '0') + ' / 05';
     home.setAttribute('aria-disabled', idx === 0 ? 'true' : 'false');
+    controls.classList.toggle('is-hidden', idx === 0);
     prev.setAttribute('aria-disabled', idx === 0 ? 'true' : 'false');
     next.setAttribute('aria-disabled', idx === last ? 'true' : 'false');
   }
