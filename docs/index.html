@@ -69,8 +69,8 @@
   .controls.is-hidden > * { pointer-events: none; }
   .count { font-size: clamp(13px, calc(var(--u) * 1.15), 20px); letter-spacing: 0.06em; color: rgba(255,255,255,0.6); font-variant-numeric: tabular-nums; }
   .btns { display: flex; align-items: center; gap: 12px; }
-  .pill { all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; gap: 14px; padding: clamp(13px, calc(var(--u) * 1.2), 17px) clamp(22px, calc(var(--u) * 2.1), 30px); border-radius: 999px; font-size: clamp(14px, calc(var(--u) * 1.15), 21px); border: 1px solid; transition: background 260ms ease, border-color 260ms ease, color 260ms ease, transform 260ms cubic-bezier(.22,.61,.36,1), opacity 260ms ease; }
-  .pill svg { display: block; width: 22px; height: 12px; flex: none; }
+  .pill { all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; padding: clamp(10px, calc(var(--u) * 0.85), 13px) clamp(18px, calc(var(--u) * 1.6), 24px); border-radius: 999px; font-size: clamp(13px, calc(var(--u) * 1), 17px); border: 1px solid; transition: background 260ms ease, border-color 260ms ease, color 260ms ease, transform 260ms cubic-bezier(.22,.61,.36,1), opacity 260ms ease; }
+  .pill svg { display: block; width: 18px; height: 10px; flex: none; }
   .pill.primary { color: var(--accent); border-color: rgba(255,199,0,0.55); }
   .pill.primary:hover { background: rgba(255,199,0,0.10); border-color: var(--accent); transform: translateX(4px); }
   .pill.secondary { color: rgba(255,255,255,0.7); border-color: rgba(255,255,255,0.28); }
@@ -156,7 +156,7 @@
     .assembly { width: 56px; }
     .controls { bottom: 14px; padding: 0 16px; }
     .btns { gap: 8px; }
-    .pill { padding: 14px 18px; gap: 10px; font-size: 15px; }
+    .pill { padding: 12px 16px; gap: 8px; font-size: 14px; }
   }
   @media (prefers-reduced-motion: reduce) {
     .key.hot { animation: none; }
